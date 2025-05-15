@@ -3,74 +3,87 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card } from "@/components/ui/card"
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
-    phone: ""
-  })
-  const [errors, setErrors] = useState({
-    name: "",
-    phone: ""
+    email: "",
+    phone: "",
+    message: "",
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
-    // Reset errors
-    setErrors({ name: "", phone: "" })
-    
-    // Validate
-    let hasError = false
-    if (!formData.name) {
-      setErrors(prev => ({ ...prev, name: "Nome é obrigatório" }))
-      hasError = true
-    }
-    if (!formData.phone) {
-      setErrors(prev => ({ ...prev, phone: "Telefone é obrigatório" }))
-      hasError = true
-    }
+    // Aqui você pode adicionar a lógica para enviar o formulário
+    console.log(formData)
+  }
 
-    if (hasError) return
-
-    // Format WhatsApp message
-    const message = `Olá, meu nome é ${formData.name} e preciso de um site! Meu telefone: ${formData.phone}`
-    const whatsappUrl = `https://wa.me/5534991628328?text=${encodeURIComponent(message)}`
-    
-    // Open WhatsApp in new tab
-    window.open(whatsappUrl, "_blank")
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto p-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+            Nome
+          </label>
           <Input
+            id="name"
+            name="name"
             type="text"
-            placeholder="Seu nome"
+            required
             value={formData.name}
-            onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-            className={errors.name ? "border-red-500" : ""}
+            onChange={handleChange}
           />
-          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
-        
         <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            Email
+          </label>
           <Input
-            type="tel"
-            placeholder="Seu telefone"
-            value={formData.phone}
-            onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-            className={errors.phone ? "border-red-500" : ""}
+            id="email"
+            name="email"
+            type="email"
+            required
+            value={formData.email}
+            onChange={handleChange}
           />
-          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
         </div>
-
-        <Button type="submit" className="w-full bg-gray-900 hover:bg-gray-800">
+      </div>
+      <div>
+        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+          Telefone
+        </label>
+        <Input
+          id="phone"
+          name="phone"
+          type="tel"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+          Mensagem
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows={4}
+          required
+          value={formData.message}
+          onChange={handleChange}
+          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <Button type="submit" className="w-full">
           Enviar Mensagem
         </Button>
-      </form>
-    </Card>
+      </div>
+    </form>
   )
 }
