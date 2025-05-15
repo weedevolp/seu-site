@@ -9,6 +9,7 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+    unoptimized: true,
   },
   typescript: {
     // Set this to false if you want production builds to abort if there are type errors
@@ -18,6 +19,9 @@ const nextConfig = {
     // Set this to false if you want production builds to abort if there are lint errors
     ignoreDuringBuilds: process.env.NODE_ENV === 'development',
   },
+  output: 'export',
+  basePath: '/weedev',
+  trailingSlash: true,
 }
 
 module.exports = nextConfig
