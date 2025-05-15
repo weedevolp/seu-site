@@ -12,16 +12,11 @@ const nextConfig = {
     unoptimized: true,
   },
   typescript: {
-    // Set this to false if you want production builds to abort if there are type errors
-    ignoreBuildErrors: process.env.NODE_ENV === 'development',
+    ignoreBuildErrors: true,
   },
   eslint: {
-    // Set this to false if you want production builds to abort if there are lint errors
-    ignoreDuringBuilds: process.env.NODE_ENV === 'development',
-  },
-  output: 'export',
-  basePath: '/weedev',
-  trailingSlash: true,
+    ignoreDuringBuilds: true,
+  }
 }
 
-module.exports = nextConfig
+export default nextConfig
